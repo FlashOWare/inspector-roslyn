@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/lib/">
+    <Project Path="lib/FlashOWare.CodeAnalysis.Inspection.Core/FlashOWare.CodeAnalysis.Inspection.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <File Path="tests/.globalconfig" />
+    <Project Path="tests/FlashOWare.CodeAnalysis.Inspection.Core.Tests/FlashOWare.CodeAnalysis.Inspection.Core.Tests.csproj" />
+    <Project Path="tests/FlashOWare.CodeAnalysis.Inspection.Tool.Tests/FlashOWare.CodeAnalysis.Inspection.Tool.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/FlashOWare.CodeAnalysis.Inspection.Tool/FlashOWare.CodeAnalysis.Inspection.Tool.csproj" />
+  </Folder>
+</Solution>
