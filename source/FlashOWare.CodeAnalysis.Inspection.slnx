@@ -1,13 +1,25 @@
 <Solution>
+  <Folder Name="/demo/">
+    <File Path="demo/Directory.Build.props" />
+    <Project Path="demo/FlashOWare.CodeAnalysis.CSharp.Demo/FlashOWare.CodeAnalysis.CSharp.Demo.csproj" />
+    <Project Path="demo/FlashOWare.CodeAnalysis.CSharp.Features.Demo/FlashOWare.CodeAnalysis.CSharp.Features.Demo.csproj" />
+    <Project Path="demo/FlashOWare.CodeAnalysis.CSharp.Workspaces.Demo/FlashOWare.CodeAnalysis.CSharp.Workspaces.Demo.csproj" />
+    <Project Path="demo/FlashOWare.CodeAnalysis.VisualBasic.Demo/FlashOWare.CodeAnalysis.VisualBasic.Demo.csproj" />
+    <Project Path="demo/FlashOWare.CodeAnalysis.VisualBasic.Features.Demo/FlashOWare.CodeAnalysis.VisualBasic.Features.Demo.csproj" />
+    <Project Path="demo/FlashOWare.CodeAnalysis.VisualBasic.Workspaces.Demo/FlashOWare.CodeAnalysis.VisualBasic.Workspaces.Demo.csproj" />
+  </Folder>
   <Folder Name="/lib/">
+    <File Path="lib/Directory.Build.props" />
     <Project Path="lib/FlashOWare.CodeAnalysis.Inspection.Core/FlashOWare.CodeAnalysis.Inspection.Core.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <File Path="tests/.globalconfig" />
+    <File Path="tests/Directory.Build.props" />
     <Project Path="tests/FlashOWare.CodeAnalysis.Inspection.Core.Tests/FlashOWare.CodeAnalysis.Inspection.Core.Tests.csproj" />
     <Project Path="tests/FlashOWare.CodeAnalysis.Inspection.Tool.Tests/FlashOWare.CodeAnalysis.Inspection.Tool.Tests.csproj" />
   </Folder>
   <Folder Name="/tools/">
+    <File Path="tools/Directory.Build.props" />
     <Project Path="tools/FlashOWare.CodeAnalysis.Inspection.Tool/FlashOWare.CodeAnalysis.Inspection.Tool.csproj" />
   </Folder>
 </Solution>
