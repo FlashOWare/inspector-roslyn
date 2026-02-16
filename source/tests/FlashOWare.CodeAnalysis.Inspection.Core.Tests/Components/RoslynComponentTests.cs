@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Reflection;
 using FlashOWare.CodeAnalysis.Inspection.Components;
 using FlashOWare.CodeAnalysis.Inspection.Tests.Assertions;
 using FlashOWare.CodeAnalysis.Inspection.Tests.Resources;
@@ -56,5 +58,31 @@ public sealed class RoslynComponentTests
 		Assert.HasCount(2, extensions);
 		extensions[0].Assert(RoslynComponentResources.VisualBasicIncrementalGenerator, [LanguageNames.VisualBasic]);
 		extensions[1].Assert(RoslynComponentResources.VisualBasicSourceGenerator, [LanguageNames.VisualBasic]);
+	}
+
+	[TestMethod]
+	public void Inspect_Invoke_Multi()
+	{
+		// Arrange
+		Assembly[] assemblies = [
+			RoslynComponentResources.This,
+			RoslynComponentResources.CSharp,
+			RoslynComponentResources.VisualBasic,
+		];
+		ConcurrentBag<ImmutableArray<CompilerExtension>> components = [];
+
+		// Act
+		assemblies.AsParallel()
+			.WithDegreeOfParallelism(assemblies.Length)
+			.WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+			.WithCancellation(_context.CancellationToken)
+			.ForAll((Assembly assembly) =>
+			{
+				using FileStream stream = File.OpenRead(assembly.Location);
+				components.Add(RoslynComponent.Inspect(stream));
+			});
+
+		// Assert
+		Assert.HasCount(3, components);
 	}
 }

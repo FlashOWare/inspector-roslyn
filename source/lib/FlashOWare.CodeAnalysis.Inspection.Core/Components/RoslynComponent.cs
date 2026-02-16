@@ -7,15 +7,14 @@ namespace FlashOWare.CodeAnalysis.Inspection.Components;
 
 public static class RoslynComponent
 {
-	private static readonly AssemblyLoadContext s_alc = new(typeof(RoslynComponent).FullName, true);
-
 	public static ImmutableArray<CompilerExtension> Inspect(Stream component)
 	{
-		Assembly assembly = s_alc.LoadFromStream(component);
+		AssemblyLoadContext alc = new(typeof(RoslynComponent).FullName, true);
+		Assembly assembly = alc.LoadFromStream(component);
 
 		ImmutableArray<CompilerExtension> extensions = Inspect(assembly);
 
-		s_alc.Unload();
+		alc.Unload();
 
 		return extensions;
 	}
