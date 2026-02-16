@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>FlashOWare.CodeAnalysis.Inspection.Tests</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -15,6 +16,19 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\lib\FlashOWare.CodeAnalysis.Inspection.Core\FlashOWare.CodeAnalysis.Inspection.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.CSharp.Demo\FlashOWare.CodeAnalysis.CSharp.Demo.csproj" />
+    <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.CSharp.Features.Demo\FlashOWare.CodeAnalysis.CSharp.Features.Demo.csproj" />
+    <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.CSharp.Workspaces.Demo\FlashOWare.CodeAnalysis.CSharp.Workspaces.Demo.csproj" />
+    <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.VisualBasic.Demo\FlashOWare.CodeAnalysis.VisualBasic.Demo.csproj" />
+    <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.VisualBasic.Features.Demo\FlashOWare.CodeAnalysis.VisualBasic.Features.Demo.csproj" />
+    <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.VisualBasic.Workspaces.Demo\FlashOWare.CodeAnalysis.VisualBasic.Workspaces.Demo.csproj" />
   </ItemGroup>
 
 </Project>

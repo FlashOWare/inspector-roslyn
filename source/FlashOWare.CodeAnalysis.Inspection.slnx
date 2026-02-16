@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/.solution/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
   <Folder Name="/demo/">
     <File Path="demo/Directory.Build.props" />
     <Project Path="demo/FlashOWare.CodeAnalysis.CSharp.Demo/FlashOWare.CodeAnalysis.CSharp.Demo.csproj" />

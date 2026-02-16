@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>FlashOWare.CodeAnalysis.Inspection.Tests</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -15,6 +16,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\tools\FlashOWare.CodeAnalysis.Inspection.Tool\FlashOWare.CodeAnalysis.Inspection.Tool.csproj" />
   </ItemGroup>
 
 </Project>
