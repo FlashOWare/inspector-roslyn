@@ -1,60 +1,51 @@
+using System.Collections.ObjectModel;
 using FlashOWare.CodeAnalysis.Inspection.Components;
+using Microsoft.CodeAnalysis;
 
 namespace FlashOWare.CodeAnalysis.Inspection.Tests.Assertions;
 
 internal static class CompilerExtensionAssertions
 {
+	private static readonly Comparer<object?> s_diagnosticComparer = Comparer<object?>.Create(static int (object? x, object? y) =>
+	{
+		var left = Assert.IsInstanceOfType<string>(x);
+		var right = Assert.IsInstanceOfType<DiagnosticDescriptor>(y);
+		return StringComparer.Ordinal.Compare(left, right.Id);
+	});
+
+	private static readonly Comparer<object?> s_suppressionComparer = Comparer<object?>.Create(static int (object? x, object? y) =>
+	{
+		var left = Assert.IsInstanceOfType<string>(x);
+		var right = Assert.IsInstanceOfType<SuppressionDescriptor>(y);
+		return StringComparer.Ordinal.Compare(left, right.Id);
+	});
+
 	extension(CompilerExtension extension)
 	{
-		internal void AssertAnalyzer(string name, ReadOnlySpan<string> languages, ReadOnlySpan<string> supportedDiagnostics)
+		internal void AssertAnalyzer(Type type, ReadOnlyCollection<string> languages, ReadOnlyCollection<string> supportedDiagnostics)
 		{
 			var analyzer = Assert.IsInstanceOfType<AnalyzerInfo>(extension);
 
-			Assert.AreEqual(name, analyzer.ClassName, "Name.");
-
-			Assert.HasCount(languages.Length, analyzer.Languages, "Languages.");
-			for (int i = 0; i < languages.Length; i++)
-			{
-				Assert.AreEqual(languages[i], analyzer.Languages[i], $"At Index {i}.");
-			}
-
-			Assert.HasCount(supportedDiagnostics.Length, analyzer.SupportedDiagnostics, "SupportedDiagnostics.");
-			for (int i = 0; i < supportedDiagnostics.Length; i++)
-			{
-				Assert.AreEqual(supportedDiagnostics[i], analyzer.SupportedDiagnostics[i].Id, $"At Index {i}.");
-			}
+			Assert.AreStructuralEqual(type, analyzer.Class, "Analyzer Class.");
+			CollectionAssert.AreEqual(languages, analyzer.Attribute.Languages, StringComparer.Ordinal, "Analyzer Languages.");
+			CollectionAssert.AreEqual(supportedDiagnostics, analyzer.SupportedDiagnostics, s_diagnosticComparer, "Supported Diagnostics.");
 		}
-		
-		internal void AssertSuppressor(string name, ReadOnlySpan<string> languages, ReadOnlySpan<string> supportedSuppressions)
+
+		internal void AssertSuppressor(Type type, ReadOnlyCollection<string> languages, ReadOnlyCollection<string> supportedSuppressions)
 		{
 			var suppressor = Assert.IsInstanceOfType<SuppressorInfo>(extension);
 
-			Assert.AreEqual(name, suppressor.ClassName, "Name.");
-
-			Assert.HasCount(languages.Length, suppressor.Languages, "Languages.");
-			for (int i = 0; i < languages.Length; i++)
-			{
-				Assert.AreEqual(languages[i], suppressor.Languages[i], $"At Index {i}.");
-			}
-
-			Assert.HasCount(supportedSuppressions.Length, suppressor.SupportedSuppressions, "SupportedSuppressions.");
-			for (int i = 0; i < supportedSuppressions.Length; i++)
-			{
-				Assert.AreEqual(supportedSuppressions[i], suppressor.SupportedSuppressions[i].Id, $"At Index {i}.");
-			}
+			Assert.AreStructuralEqual(type, suppressor.Class, "Suppressor Class.");
+			CollectionAssert.AreEqual(languages, suppressor.Attribute.Languages, StringComparer.Ordinal, "Suppressor Languages.");
+			CollectionAssert.AreEqual(supportedSuppressions, suppressor.SupportedSuppressions, s_suppressionComparer, "Supported Suppressions.");
 		}
 
-		internal void AssertGenerator(string name, ReadOnlySpan<string> languages)
+		internal void AssertGenerator(Type type, ReadOnlyCollection<string> languages)
 		{
 			var generator = Assert.IsInstanceOfType<GeneratorInfo>(extension);
 
-			Assert.AreEqual(name, generator.ClassName, "Name.");
-
-			Assert.HasCount(languages.Length, generator.Languages, "Languages.");
-			for (int i = 0; i < languages.Length; i++)
-			{
-				Assert.AreEqual(languages[i], generator.Languages[i], $"At Index {i}.");
-			}
+			Assert.AreStructuralEqual(type, generator.Class, "Generator Class.");
+			CollectionAssert.AreEqual(languages, generator.Attribute.Languages, StringComparer.Ordinal, "Generator Languages.");
 		}
 	}
 }

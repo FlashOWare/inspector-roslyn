@@ -27,7 +27,7 @@ public sealed class RoslynComponentTests
 		ImmutableArray<CompilerExtension> extensions = RoslynComponent.Inspect(stream);
 
 		// Assert
-		Assert.HasCount(0, extensions);
+		Assert.IsEmpty(extensions);
 	}
 
 	[TestMethod]

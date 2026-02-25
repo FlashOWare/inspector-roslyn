@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -43,7 +42,7 @@ public static class RoslynComponent
 				{
 					var suppressor = (DiagnosticSuppressor)Activator.CreateInstance(type)!;
 
-					var extension = new SuppressorInfo(type.FullName, ImmutableCollectionsMarshal.AsImmutableArray(attribute.Languages), suppressor.SupportedSuppressions);
+					var extension = new SuppressorInfo(type, attribute, suppressor.SupportedSuppressions);
 
 					extensions.Add(extension);
 					continue;
@@ -56,7 +55,7 @@ public static class RoslynComponent
 				{
 					var analyzer = (DiagnosticAnalyzer)Activator.CreateInstance(type)!;
 
-					var extension = new AnalyzerInfo(type.FullName, ImmutableCollectionsMarshal.AsImmutableArray(attribute.Languages), analyzer.SupportedDiagnostics);
+					var extension = new AnalyzerInfo(type, attribute, analyzer.SupportedDiagnostics);
 
 					extensions.Add(extension);
 					continue;
@@ -70,7 +69,7 @@ public static class RoslynComponent
 					object? generator = Activator.CreateInstance(type);
 					_ = generator;
 
-					var extension = new GeneratorInfo(type.FullName, ImmutableCollectionsMarshal.AsImmutableArray(attribute.Languages));
+					var extension = new GeneratorInfo(type, attribute);
 
 					extensions.Add(extension);
 					continue;

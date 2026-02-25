@@ -1,51 +1,54 @@
+using FlashOWare.CodeAnalysis.Inspection.Reflection;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace FlashOWare.CodeAnalysis.Inspection.Components;
 
 public abstract class CompilerExtension
 {
-	protected CompilerExtension(string name, string[] languages)
-		: this(name, languages.ToImmutableArray())
+	private protected CompilerExtension(Type type)
 	{
+		Debug.Assert(type.IsClass);
+
+		Class = ClassInfo.Create(type);
 	}
 
-	protected CompilerExtension(string name, ImmutableArray<string> languages)
-	{
-		ClassName = name;
-		Languages = languages;
-	}
-
-	public string ClassName { get; }
-
-	public ImmutableArray<string> Languages { get; }
+	public ClassInfo Class { get; }
 }
 
 public sealed class AnalyzerInfo : CompilerExtension
 {
-	public AnalyzerInfo(string name, ImmutableArray<string> languages, ImmutableArray<DiagnosticDescriptor> supportedDiagnostics)
-		: base(name, languages)
+	internal AnalyzerInfo(Type type, DiagnosticAnalyzerAttribute attribute, ImmutableArray<DiagnosticDescriptor> supportedDiagnostics)
+		: base(type)
 	{
+		Attribute = attribute;
 		SupportedDiagnostics = supportedDiagnostics;
 	}
 
+	public DiagnosticAnalyzerAttribute Attribute { get; }
 	public ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
 }
 
 public sealed class SuppressorInfo : CompilerExtension
 {
-	public SuppressorInfo(string name, ImmutableArray<string> languages, ImmutableArray<SuppressionDescriptor> supportedSuppressions)
-		: base(name, languages)
+	internal SuppressorInfo(Type type, DiagnosticAnalyzerAttribute attribute, ImmutableArray<SuppressionDescriptor> supportedSuppressions)
+		: base(type)
 	{
+		Attribute = attribute;
 		SupportedSuppressions = supportedSuppressions;
 	}
 
+	public DiagnosticAnalyzerAttribute Attribute { get; }
 	public ImmutableArray<SuppressionDescriptor> SupportedSuppressions { get; }
 }
 
 public sealed class GeneratorInfo : CompilerExtension
 {
-	public GeneratorInfo(string name, ImmutableArray<string> languages)
-		: base(name, languages)
+	internal GeneratorInfo(Type type, GeneratorAttribute attribute)
+		: base(type)
 	{
+		Attribute = attribute;
 	}
+
+	public GeneratorAttribute Attribute { get; }
 }

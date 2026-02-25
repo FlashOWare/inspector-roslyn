@@ -10,12 +10,12 @@ internal static class RoslynComponentResources
 	internal static Assembly CSharp => typeof(CSharpDiagnosticAnalyzerDemo).Assembly;
 	internal static Assembly VisualBasic => typeof(VisualBasicDiagnosticAnalyzerDemo).Assembly;
 
-	internal static string CSharpDiagnosticAnalyzer => typeof(CSharpDiagnosticAnalyzerDemo).FullName!;
-	internal static string CSharpDiagnosticSuppressor => typeof(CSharpDiagnosticSuppressorDemo).FullName!;
-	internal static string CSharpSourceGenerator => typeof(CSharpSourceGeneratorDemo).FullName!;
-	internal static string CSharpIncrementalGenerator => typeof(CSharpIncrementalGeneratorDemo).FullName!;
-	internal static string VisualBasicDiagnosticAnalyzer => typeof(VisualBasicDiagnosticAnalyzerDemo).FullName!;
-	internal static string VisualBasicDiagnosticSuppressor => typeof(VisualBasicDiagnosticSuppressorDemo).FullName!;
-	internal static string VisualBasicSourceGenerator => typeof(VisualBasicSourceGeneratorDemo).FullName!;
-	internal static string VisualBasicIncrementalGenerator => typeof(VisualBasicIncrementalGeneratorDemo).FullName!;
+	internal static Type CSharpDiagnosticAnalyzer => typeof(CSharpDiagnosticAnalyzerDemo);
+	internal static Type CSharpDiagnosticSuppressor => typeof(CSharpDiagnosticSuppressorDemo);
+	internal static Type CSharpSourceGenerator => typeof(CSharpSourceGeneratorDemo);
+	internal static Type CSharpIncrementalGenerator => typeof(CSharpIncrementalGeneratorDemo);
+	internal static Type VisualBasicDiagnosticAnalyzer => typeof(VisualBasicDiagnosticAnalyzerDemo);
+	internal static Type VisualBasicDiagnosticSuppressor => typeof(VisualBasicDiagnosticSuppressorDemo);
+	internal static Type VisualBasicSourceGenerator => typeof(VisualBasicSourceGeneratorDemo);
+	internal static Type VisualBasicIncrementalGenerator => typeof(VisualBasicIncrementalGeneratorDemo);
 }
