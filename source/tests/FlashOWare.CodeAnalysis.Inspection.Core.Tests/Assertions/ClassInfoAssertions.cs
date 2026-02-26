@@ -8,9 +8,9 @@ internal static class ClassInfoAssertions
 	{
 		internal static void AreStructuralEqual(Type expected, ClassInfo actual, string? message = "")
 		{
-			Assert.That(
-				() => StringComparer.Ordinal.Equals(expected.Name, actual.Name) && StringComparer.Ordinal.Equals(expected.Namespace, actual.Namespace) && StringComparer.Ordinal.Equals(expected.FullName, actual.FullName),
-				message);
+			Assert.AreEqual(expected.Name, actual.Name, message);
+			Assert.AreEqual(expected.Namespace, actual.Namespace, message);
+			Assert.AreEqual(expected.FullName, actual.FullName, message);
 		}
 	}
 }
