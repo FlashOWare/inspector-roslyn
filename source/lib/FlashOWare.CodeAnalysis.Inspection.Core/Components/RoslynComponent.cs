@@ -21,7 +21,7 @@ public static class RoslynComponent
 
 	private static ImmutableArray<CompilerExtension> Inspect(Assembly component)
 	{
-		Type[] types = component.GetExportedTypes();
+		Type[] types = component.GetTypes();
 		return GetCompilerExtensions(types);
 	}
 
@@ -31,15 +31,20 @@ public static class RoslynComponent
 
 		foreach (Type type in types)
 		{
-			if (type.FullName is null)
+			if (type.IsClass && type.FullName is null)
 			{
 				continue;
 			}
 
 			if (type.IsAssignableTo(typeof(DiagnosticSuppressor)))
 			{
-				if (type.GetCustomAttribute<DiagnosticAnalyzerAttribute>() is { } attribute)
+				if (type.GetCustomAttribute<DiagnosticAnalyzerAttribute>(false) is { } attribute)
 				{
+					if (IsNotConstructible(type))
+					{
+						continue;
+					}
+
 					var suppressor = (DiagnosticSuppressor)Activator.CreateInstance(type)!;
 
 					var extension = new SuppressorInfo(type, attribute, suppressor.SupportedSuppressions);
@@ -51,8 +56,13 @@ public static class RoslynComponent
 
 			if (type.IsAssignableTo(typeof(DiagnosticAnalyzer)))
 			{
-				if (type.GetCustomAttribute<DiagnosticAnalyzerAttribute>() is { } attribute)
+				if (type.GetCustomAttribute<DiagnosticAnalyzerAttribute>(false) is { } attribute)
 				{
+					if (IsNotConstructible(type))
+					{
+						continue;
+					}
+
 					var analyzer = (DiagnosticAnalyzer)Activator.CreateInstance(type)!;
 
 					var extension = new AnalyzerInfo(type, attribute, analyzer.SupportedDiagnostics);
@@ -64,8 +74,13 @@ public static class RoslynComponent
 
 			if (type.IsAssignableTo(typeof(ISourceGenerator)) || type.IsAssignableTo(typeof(IIncrementalGenerator)))
 			{
-				if (type.GetCustomAttribute<GeneratorAttribute>() is { } attribute)
+				if (type.GetCustomAttribute<GeneratorAttribute>(false) is { } attribute)
 				{
+					if (IsNotConstructible(type))
+					{
+						continue;
+					}
+
 					object? generator = Activator.CreateInstance(type);
 					_ = generator;
 
@@ -78,5 +93,11 @@ public static class RoslynComponent
 		}
 
 		return extensions.DrainToImmutable();
+	}
+
+	private static bool IsNotConstructible(Type type)
+	{
+		return type.IsAbstract
+			|| type.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, CallingConventions.Any, Type.EmptyTypes, null) is null;
 	}
 }

@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Reflection.Metadata;
 using FlashOWare.CodeAnalysis.Inspection.Components;
 using Microsoft.CodeAnalysis;
 
@@ -20,8 +21,23 @@ internal static class CompilerExtensionAssertions
 		return StringComparer.Ordinal.Compare(left, right.Id);
 	});
 
+	private static readonly TypeNameParseOptions s_options = new()
+	{
+		MaxNodes = 2,
+	};
+
 	extension(CompilerExtension extension)
 	{
+		internal void AssertExtension(ReadOnlySpan<char> typeName)
+		{
+			Type type = extension.GetType();
+			Assert.IsFalse(type.IsAbstract);
+			Assert.IsTrue(type.IsSealed);
+
+			var expected = TypeName.Parse(typeName, s_options);
+			Assert.AreStructuralEqual(expected, extension.Class, "Extension Class.");
+		}
+
 		internal void AssertAnalyzer(Type type, ReadOnlyCollection<string> languages, ReadOnlyCollection<string> supportedDiagnostics)
 		{
 			var analyzer = Assert.IsInstanceOfType<AnalyzerInfo>(extension);
