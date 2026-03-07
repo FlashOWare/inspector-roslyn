@@ -26,9 +26,12 @@
     <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.CSharp.Demo\FlashOWare.CodeAnalysis.CSharp.Demo.csproj" />
     <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.CSharp.Features.Demo\FlashOWare.CodeAnalysis.CSharp.Features.Demo.csproj" />
     <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.CSharp.Workspaces.Demo\FlashOWare.CodeAnalysis.CSharp.Workspaces.Demo.csproj" />
+    <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.Demo\FlashOWare.CodeAnalysis.Demo.csproj" />
+    <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.Features.Demo\FlashOWare.CodeAnalysis.Features.Demo.csproj" />
     <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.VisualBasic.Demo\FlashOWare.CodeAnalysis.VisualBasic.Demo.csproj" />
     <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.VisualBasic.Features.Demo\FlashOWare.CodeAnalysis.VisualBasic.Features.Demo.csproj" />
     <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.VisualBasic.Workspaces.Demo\FlashOWare.CodeAnalysis.VisualBasic.Workspaces.Demo.csproj" />
+    <ProjectReference Include="..\..\demo\FlashOWare.CodeAnalysis.Workspaces.Demo\FlashOWare.CodeAnalysis.Workspaces.Demo.csproj" />
   </ItemGroup>
 
 </Project>

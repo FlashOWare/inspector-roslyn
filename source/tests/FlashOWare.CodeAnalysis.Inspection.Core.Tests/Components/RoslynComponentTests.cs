@@ -31,6 +31,23 @@ public sealed class RoslynComponentTests
 	}
 
 	[TestMethod]
+	public void Inspect_CommonComponent_FindAllExtensions()
+	{
+		// Arrange
+		using FileStream stream = File.OpenRead(RoslynComponentResources.Common.Location);
+
+		// Act
+		ImmutableArray<CompilerExtension> extensions = RoslynComponent.Inspect(stream);
+
+		// Assert
+		Assert.HasCount(4, extensions);
+		extensions[0].AssertGenerator(RoslynComponentResources.CommonIncrementalGenerator, [LanguageNames.CSharp, LanguageNames.VisualBasic]);
+		extensions[1].AssertGenerator(RoslynComponentResources.CommonSourceGenerator, [LanguageNames.CSharp, LanguageNames.VisualBasic]);
+		extensions[2].AssertAnalyzer(RoslynComponentResources.CommonDiagnosticAnalyzer, [LanguageNames.CSharp, LanguageNames.VisualBasic], []);
+		extensions[3].AssertSuppressor(RoslynComponentResources.CommonDiagnosticSuppressor, [LanguageNames.CSharp, LanguageNames.VisualBasic], []);
+	}
+
+	[TestMethod]
 	public void Inspect_CSharpComponent_FindAllExtensions()
 	{
 		// Arrange
@@ -70,6 +87,7 @@ public sealed class RoslynComponentTests
 		// Arrange
 		Assembly[] assemblies = [
 			RoslynComponentResources.This,
+			RoslynComponentResources.Common,
 			RoslynComponentResources.CSharp,
 			RoslynComponentResources.VisualBasic,
 		];
@@ -87,6 +105,6 @@ public sealed class RoslynComponentTests
 			});
 
 		// Assert
-		Assert.HasCount(3, components);
+		Assert.HasCount(assemblies.Length, components);
 	}
 }
