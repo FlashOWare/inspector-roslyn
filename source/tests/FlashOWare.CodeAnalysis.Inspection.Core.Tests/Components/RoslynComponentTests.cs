@@ -40,11 +40,19 @@ public sealed class RoslynComponentTests
 		ImmutableArray<CompilerExtension> extensions = RoslynComponent.Inspect(stream);
 
 		// Assert
-		Assert.HasCount(4, extensions);
-		extensions[0].AssertGenerator(RoslynComponentResources.CommonIncrementalGenerator, [LanguageNames.CSharp, LanguageNames.VisualBasic]);
-		extensions[1].AssertGenerator(RoslynComponentResources.CommonSourceGenerator, [LanguageNames.CSharp, LanguageNames.VisualBasic]);
-		extensions[2].AssertAnalyzer(RoslynComponentResources.CommonDiagnosticAnalyzer, [LanguageNames.CSharp, LanguageNames.VisualBasic], []);
-		extensions[3].AssertSuppressor(RoslynComponentResources.CommonDiagnosticSuppressor, [LanguageNames.CSharp, LanguageNames.VisualBasic], []);
+		Assert.HasCount(12, extensions);
+		extensions[00].AssertGenerator(RoslynComponentResources.CommonIncrementalGenerator, [LanguageNames.CSharp, LanguageNames.VisualBasic]);
+		extensions[01].AssertExtension("FlashOWare.CodeAnalysis.Demo.Generators.InternalIncrementalGenerator");
+		extensions[02].AssertGenerator(RoslynComponentResources.CommonSourceGenerator, [LanguageNames.CSharp, LanguageNames.VisualBasic]);
+		extensions[03].AssertExtension("FlashOWare.CodeAnalysis.Demo.Generators.InternalSourceGenerator");
+		extensions[04].AssertAnalyzer(RoslynComponentResources.CommonDiagnosticAnalyzer, [LanguageNames.CSharp, LanguageNames.VisualBasic], []);
+		extensions[05].AssertExtension("FlashOWare.CodeAnalysis.Demo.Diagnostics.InternalDiagnosticAnalyzer");
+		extensions[06].AssertSuppressor(RoslynComponentResources.CommonDiagnosticSuppressor, [LanguageNames.CSharp, LanguageNames.VisualBasic], []);
+		extensions[07].AssertExtension("FlashOWare.CodeAnalysis.Demo.Diagnostics.InternalDiagnosticSuppressor");
+		extensions[08].AssertExtension("FlashOWare.CodeAnalysis.Demo.Generators.InternalIncrementalGenerator+PrivateIncrementalGenerator");
+		extensions[09].AssertExtension("FlashOWare.CodeAnalysis.Demo.Generators.InternalSourceGenerator+PrivateSourceGenerator");
+		extensions[10].AssertExtension("FlashOWare.CodeAnalysis.Demo.Diagnostics.InternalDiagnosticAnalyzer+PrivateDiagnosticAnalyzer");
+		extensions[11].AssertExtension("FlashOWare.CodeAnalysis.Demo.Diagnostics.InternalDiagnosticSuppressor+PrivateDiagnosticSuppressor");
 	}
 
 	[TestMethod]
