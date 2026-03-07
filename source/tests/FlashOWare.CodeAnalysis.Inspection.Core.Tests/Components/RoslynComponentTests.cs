@@ -27,7 +27,7 @@ public sealed class RoslynComponentTests
 		ImmutableArray<CompilerExtension> extensions = RoslynComponent.Inspect(stream);
 
 		// Assert
-		Assert.HasCount(0, extensions);
+		Assert.IsEmpty(extensions);
 	}
 
 	[TestMethod]
@@ -40,9 +40,11 @@ public sealed class RoslynComponentTests
 		ImmutableArray<CompilerExtension> extensions = RoslynComponent.Inspect(stream);
 
 		// Assert
-		Assert.HasCount(2, extensions);
-		extensions[0].Assert(RoslynComponentResources.CSharpIncrementalGenerator, [LanguageNames.CSharp]);
-		extensions[1].Assert(RoslynComponentResources.CSharpSourceGenerator, [LanguageNames.CSharp]);
+		Assert.HasCount(4, extensions);
+		extensions[0].AssertGenerator(RoslynComponentResources.CSharpIncrementalGenerator, [LanguageNames.CSharp]);
+		extensions[1].AssertGenerator(RoslynComponentResources.CSharpSourceGenerator, [LanguageNames.CSharp]);
+		extensions[2].AssertAnalyzer(RoslynComponentResources.CSharpDiagnosticAnalyzer, [LanguageNames.CSharp], ["CSDEMO1001"]);
+		extensions[3].AssertSuppressor(RoslynComponentResources.CSharpDiagnosticSuppressor, [LanguageNames.CSharp], ["CSSUPPRESS1001"]);
 	}
 
 	[TestMethod]
@@ -55,9 +57,11 @@ public sealed class RoslynComponentTests
 		ImmutableArray<CompilerExtension> extensions = RoslynComponent.Inspect(stream);
 
 		// Assert
-		Assert.HasCount(2, extensions);
-		extensions[0].Assert(RoslynComponentResources.VisualBasicIncrementalGenerator, [LanguageNames.VisualBasic]);
-		extensions[1].Assert(RoslynComponentResources.VisualBasicSourceGenerator, [LanguageNames.VisualBasic]);
+		Assert.HasCount(4, extensions);
+		extensions[0].AssertGenerator(RoslynComponentResources.VisualBasicIncrementalGenerator, [LanguageNames.VisualBasic]);
+		extensions[1].AssertGenerator(RoslynComponentResources.VisualBasicSourceGenerator, [LanguageNames.VisualBasic]);
+		extensions[2].AssertAnalyzer(RoslynComponentResources.VisualBasicDiagnosticAnalyzer, [LanguageNames.VisualBasic], ["VBDEMO1001"]);
+		extensions[3].AssertSuppressor(RoslynComponentResources.VisualBasicDiagnosticSuppressor, [LanguageNames.VisualBasic], ["VBSUPPRESS1001"]);
 	}
 
 	[TestMethod]

@@ -31,5 +31,13 @@ ImmutableArray<CompilerExtension> extensions = RoslynComponent.Inspect(stream);
 
 foreach (CompilerExtension extension in extensions)
 {
-	Console.WriteLine($"Extension '{extension.ClassName}' supports [{String.Join(", ", extension.Languages)}].");
+	string text = extension switch
+	{
+		AnalyzerInfo analyzer => $"Analyzer Extension '{analyzer.Class.Name}' supports [{String.Join(", ", analyzer.Attribute.Languages)}] with [{String.Join(", ", analyzer.SupportedDiagnostics.Select(diagnostic => diagnostic.Id))}].",
+		SuppressorInfo suppressor => $"Suppressor Extension '{suppressor.Class.Name}' supports [{String.Join(", ", suppressor.Attribute.Languages)}] with [{String.Join(", ", suppressor.SupportedSuppressions.Select(suppression => suppression.Id))}].",
+		GeneratorInfo generator => $"Generator Extension '{generator.Class.Name}' supports [{String.Join(", ", generator.Attribute.Languages)}].",
+		null => "Null Extension.",
+		_ => $"Unknown Extension Type: {extension.GetType()}",
+	};
+	Console.WriteLine(text);
 }

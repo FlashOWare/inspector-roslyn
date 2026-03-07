@@ -1,20 +1,54 @@
+using FlashOWare.CodeAnalysis.Inspection.Reflection;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
+
 namespace FlashOWare.CodeAnalysis.Inspection.Components;
 
-public sealed class CompilerExtension
+public abstract class CompilerExtension
 {
-	internal CompilerExtension(string name, string[] languages)
+	private protected CompilerExtension(Type type)
 	{
-		ClassName = name;
-		Languages = languages.ToImmutableArray();
+		Debug.Assert(type.IsClass);
+
+		Class = ClassInfo.Create(type);
 	}
 
-	internal CompilerExtension(string name, ImmutableArray<string> languages)
+	public ClassInfo Class { get; }
+}
+
+public sealed class AnalyzerInfo : CompilerExtension
+{
+	internal AnalyzerInfo(Type type, DiagnosticAnalyzerAttribute attribute, ImmutableArray<DiagnosticDescriptor> supportedDiagnostics)
+		: base(type)
 	{
-		ClassName = name;
-		Languages = languages;
+		Attribute = attribute;
+		SupportedDiagnostics = supportedDiagnostics;
 	}
 
-	public string ClassName { get; }
+	public DiagnosticAnalyzerAttribute Attribute { get; }
+	public ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
+}
 
-	public ImmutableArray<string> Languages { get; }
+public sealed class SuppressorInfo : CompilerExtension
+{
+	internal SuppressorInfo(Type type, DiagnosticAnalyzerAttribute attribute, ImmutableArray<SuppressionDescriptor> supportedSuppressions)
+		: base(type)
+	{
+		Attribute = attribute;
+		SupportedSuppressions = supportedSuppressions;
+	}
+
+	public DiagnosticAnalyzerAttribute Attribute { get; }
+	public ImmutableArray<SuppressionDescriptor> SupportedSuppressions { get; }
+}
+
+public sealed class GeneratorInfo : CompilerExtension
+{
+	internal GeneratorInfo(Type type, GeneratorAttribute attribute)
+		: base(type)
+	{
+		Attribute = attribute;
+	}
+
+	public GeneratorAttribute Attribute { get; }
 }

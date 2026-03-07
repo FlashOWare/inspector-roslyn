@@ -1,4 +1,5 @@
 using System.Reflection;
+using FlashOWare.CodeAnalysis.Demo.Diagnostics;
 using FlashOWare.CodeAnalysis.Demo.Generators;
 
 namespace FlashOWare.CodeAnalysis.Inspection.Tests.Resources;
@@ -6,11 +7,15 @@ namespace FlashOWare.CodeAnalysis.Inspection.Tests.Resources;
 internal static class RoslynComponentResources
 {
 	internal static Assembly This => typeof(RoslynComponentResources).Assembly;
-	internal static Assembly CSharp => typeof(CSharpSourceGeneratorDemo).Assembly;
-	internal static Assembly VisualBasic => typeof(VisualBasicSourceGeneratorDemo).Assembly;
+	internal static Assembly CSharp => typeof(CSharpDiagnosticAnalyzerDemo).Assembly;
+	internal static Assembly VisualBasic => typeof(VisualBasicDiagnosticAnalyzerDemo).Assembly;
 
-	internal static string CSharpSourceGenerator => typeof(CSharpSourceGeneratorDemo).FullName!;
-	internal static string CSharpIncrementalGenerator => typeof(CSharpIncrementalGeneratorDemo).FullName!;
-	internal static string VisualBasicSourceGenerator => typeof(VisualBasicSourceGeneratorDemo).FullName!;
-	internal static string VisualBasicIncrementalGenerator => typeof(VisualBasicIncrementalGeneratorDemo).FullName!;
+	internal static Type CSharpDiagnosticAnalyzer => typeof(CSharpDiagnosticAnalyzerDemo);
+	internal static Type CSharpDiagnosticSuppressor => typeof(CSharpDiagnosticSuppressorDemo);
+	internal static Type CSharpSourceGenerator => typeof(CSharpSourceGeneratorDemo);
+	internal static Type CSharpIncrementalGenerator => typeof(CSharpIncrementalGeneratorDemo);
+	internal static Type VisualBasicDiagnosticAnalyzer => typeof(VisualBasicDiagnosticAnalyzerDemo);
+	internal static Type VisualBasicDiagnosticSuppressor => typeof(VisualBasicDiagnosticSuppressorDemo);
+	internal static Type VisualBasicSourceGenerator => typeof(VisualBasicSourceGeneratorDemo);
+	internal static Type VisualBasicIncrementalGenerator => typeof(VisualBasicIncrementalGeneratorDemo);
 }
